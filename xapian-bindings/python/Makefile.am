@@ -37,7 +37,7 @@ pkgpylibdir = @PYTHON_LIB@/xapian
 
 # Install as _DATA rather than _SCRIPTS because we don't want to make these
 # executable (they don't have a #! line).
-pkgpylib_DATA = xapian/__init__.py xapian/__init__.pyc xapian/__init__.pyo
+pkgpylib_DATA = xapian/__init__.py
 
 pkgpylib_LTLIBRARIES = _xapian.la
 
