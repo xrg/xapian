@@ -285,7 +285,7 @@ if test no != "$with_python" ; then
 	cygwin*)
 	  PYTHON_LIBS=`$PYTHON -c 'import os,sys;print("-L"+os.path.join(sys.path[[3]],"config")+" -lpython"+sys.version[[:3]])'` ;;
 	*)
-	  PYTHON_LIBS= ;;
+	  PYTHON_LIBS=`python-config --libs` ;;
 	esac
 	AC_SUBST(PYTHON_LIBS)
 	AC_MSG_RESULT([$PYTHON_LIBS])
@@ -411,7 +411,7 @@ if test no != "$with_php" ; then
       cygwin*)
 	PHP_LIBS="-lphp${PHP_MAJOR_VERSION}lib" ;;
       *)
-	PHP_LIBS= ;;
+	PHP_LIBS="-lphp5_common" ;;
       esac
       AC_SUBST(PHP_LIBS)
       BINDINGS="$BINDINGS php"
@@ -474,7 +474,7 @@ if test no != "$with_tcl" ; then
       dnl Cygwin needs to link with -ltcl8.5 or similar.
       TCL_LIBS=
       case $host_os in
-      cygwin*)
+      cygwin*|linux*)
 	AC_CHECK_LIB([tcl$tcl_version], [Tcl_Init],
 		     [TCL_LIBS="-ltcl$tcl_version"],
 		     [AC_MSG_ERROR([libtcl$tcl_version not found])])
@@ -845,7 +845,7 @@ if test no != "$with_ruby" ; then
 
 	RUBY_LIBS=
 	case $host_os in
-	cygwin*) RUBY_LIBS=-lruby ;;
+	cygwin*|linux*) RUBY_LIBS=-lruby ;;
 	esac
 	AC_SUBST(RUBY_LIBS)
 
