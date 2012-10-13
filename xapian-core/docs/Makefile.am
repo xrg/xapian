@@ -58,22 +58,10 @@ dist-hook: doxygen_api_docs
 	test -d $(distdir) || mkdir $(distdir)
 	test -d $(distdir)/apidoc || mkdir $(distdir)/apidoc
 	test -d $(distdir)/apidoc/html || mkdir $(distdir)/apidoc/html
-	test "`echo $(srcdir)/apidoc/html/*.gif`" = "$(srcdir)/apidoc/html/*.gif" || \
-	  cp -p $(srcdir)/apidoc/html/*.gif $(distdir)/apidoc/html
-	test "`echo apidoc/html/*.gif`" = "apidoc/html/*.gif" || \
-	  cp -p apidoc/html/*.gif $(distdir)/apidoc/html
-	test "`echo $(srcdir)/apidoc/html/*.png`" = "$(srcdir)/apidoc/html/*.png" || \
-	  cp -p $(srcdir)/apidoc/html/*.png $(distdir)/apidoc/html
-	test "`echo apidoc/html/*.png`" = "apidoc/html/*.png" || \
-	  cp -p apidoc/html/*.png $(distdir)/apidoc/html
-	test "`echo $(srcdir)/apidoc/html/*.css`" = "$(srcdir)/apidoc/html/*.css" || \
-	  cp -p $(srcdir)/apidoc/html/*.css $(distdir)/apidoc/html
-	test "`echo apidoc/html/*.css`" = "apidoc/html/*.css" || \
-	  cp -p apidoc/html/*.css $(distdir)/apidoc/html
-	test "`echo $(srcdir)/apidoc/html/*.html`" = "$(srcdir)/apidoc/html/*.html" || \
-	  cp -p $(srcdir)/apidoc/html/*.html $(distdir)/apidoc/html
-	test "`echo apidoc/html/*.html`" = "apidoc/html/*.html" || \
-	  cp -p apidoc/html/*.html $(distdir)/apidoc/html
+	for EXT in gif png html css html ; do \
+		find $(srcdir)/apidoc/html/ apidoc/html/ -maxdepth 0 \
+			-name '*.'$${EXT} \
+			-exec cp '{}' $(distdir)/apidoc/html/ ';' ; done
 
 if !MAINTAINER_NO_DOCS
 # Build API docs with doxygen
@@ -83,7 +71,6 @@ dist_doc_DATA = $(HTMLDOCS) $(RSTHTML) apidoc.pdf
 
 install-data-local: doxygen_api_docs
 	$(mkinstalldirs) $(DESTDIR)$(docdir)/apidoc/html
-	$(INSTALL_DATA) `test -f apidoc/html/index.html || echo $(srcdir)/`apidoc/html/*.gif $(DESTDIR)$(docdir)/apidoc/html
 	$(INSTALL_DATA) `test -f apidoc/html/index.html || echo $(srcdir)/`apidoc/html/*.png $(DESTDIR)$(docdir)/apidoc/html
 	$(INSTALL_DATA) `test -f apidoc/html/index.html || echo $(srcdir)/`apidoc/html/*.css $(DESTDIR)$(docdir)/apidoc/html
 	$(INSTALL_DATA) `test -f apidoc/html/index.html || echo $(srcdir)/`apidoc/html/*.html $(DESTDIR)$(docdir)/apidoc/html
